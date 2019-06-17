@@ -16,6 +16,7 @@ namespace Template
 		int vertexBufferId;                     // vertex buffer
 		int triangleBufferId;                   // triangle buffer
 		int quadBufferId;                       // quad buffer
+        public Matrix4 localT;
 
 		// constructor
 		public Mesh( string fileName )
@@ -24,8 +25,15 @@ namespace Template
 			loader.Load( this, fileName );
 		}
 
-		// initialization; called during first render
-		public void Prepare( Shader shader )
+        // Local Matrix
+        public Matrix4 lT
+        {
+            get { return localT; }
+            set { localT = value; }
+        }
+
+        // initialization; called during first render
+        public void Prepare( Shader shader )
 		{
 			if( vertexBufferId == 0 )
 			{

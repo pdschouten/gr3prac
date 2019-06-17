@@ -65,7 +65,7 @@ namespace Template
 		protected override void OnRenderFrame( FrameEventArgs e )
 		{
 			// called once per frame; render
-			app.Tick();
+			//app.Tick();
 			if( terminated )
 			{
 				Exit();
