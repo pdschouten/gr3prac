@@ -68,7 +68,7 @@ namespace Template
 
 
             // update rotation
-            a += 0.001f * frameDuration;
+            a += 0.0002f * frameDuration;
 			if( a > 2 * PI ) a -= 2 * PI;
 
             //render via scenegraph
