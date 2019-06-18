@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using OpenTK;
+using OpenTK.Input;
+using System;
 
 namespace Template
 {
@@ -13,11 +15,13 @@ namespace Template
 		Stopwatch timer;                        // timer for measuring frame duration
 		Shader shader;                          // shader to use for rendering
 		Texture wood, eyeR;                     // texture to use for rendering
-        scenegraph meshes;    
+        scenegraph meshes;
+        Matrix4 Tmove = Matrix4.CreateTranslation(0,0,0);
 
 		// initialize
 		public void Init()
 		{
+            screen.Print("Move: UP, DOWN, LEFT, RIGHT", 10, 10, 10);
 			// load teapot
 			mesh = new Mesh( "../../assets/teapot.obj" );
 			floor = new Mesh( "../../assets/floor.obj" );
@@ -32,7 +36,9 @@ namespace Template
 			wood = new Texture( "../../assets/wood.jpg" );
             eyeR = new Texture("../../assets/ref1.jpg");
             meshes = new scenegraph(floor, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
-            meshes.addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), eyeR, shader);
+            meshes.addNode(mesh, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
+            //meshes.addNode(mesh, Matrix4.CreateScale(1.3f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
+            
         }
 
 		// tick for background surface
@@ -51,9 +57,9 @@ namespace Template
 
 			// prepare matrix for vertex shader
 			float angle90degrees = PI / 2;
-			Matrix4 Tpot = Matrix4.CreateScale( 0.5f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
+			Matrix4 Tpot = Matrix4.CreateScale( 1.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 0, 0 ), a );
             Matrix4 Tfloor = Matrix4.CreateScale( 1.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
-			Matrix4 Tcamera = Matrix4.CreateTranslation( new Vector3( 0, -14.5f, 0 ) ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 0, 0 ), angle90degrees );
+			Matrix4 Tcamera = Matrix4.CreateTranslation( new Vector3( 0, -20.5f, 0 ) ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 0, 0 ), angle90degrees );
 			Matrix4 Tview = Matrix4.CreatePerspectiveFieldOfView( 1.2f, 1.3f, .1f, 1000 );
 
             //change transforms
@@ -66,12 +72,18 @@ namespace Template
 			if( a > 2 * PI ) a -= 2 * PI;
 
             //render via scenegraph
-            meshes.Render(Tcamera * Tview);
+            meshes.Render(Tmove * Tcamera * Tview);
 
             // render scene
             //mesh.Render(shader, Tpot * Tcamera * Tview, wood);
             //floor.Render(shader, Tfloor * Tcamera * Tview, wood);
 
+            
         }
+        public void KeyMove(Matrix4 mov)
+        {
+            Tmove *= mov;
+        }
+        
 	}
 }

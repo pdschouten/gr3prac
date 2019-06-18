@@ -12,19 +12,19 @@ namespace Template
 {
     public class scenegraph
     {
-        public static Mesh m;
+        public Mesh m;
         public Matrix4 localT;
         public Texture localTex;
         public Shader localS;
         public LinkedList<scenegraph> childnodes;
 
-        public scenegraph(Mesh a, Matrix4 b, Texture c, Shader d)
+        public scenegraph(Mesh ab, Matrix4 bc, Texture cd, Shader de)
         {
             childnodes = new LinkedList<scenegraph>();
-            localT = b;
-            localTex = c;
-            localS = d;
-            m = a;
+            localT = bc;
+            localTex = cd;
+            localS = de;
+            m = ab;
         }
 
         public void addNode(Mesh a, Matrix4 b, Texture c, Shader d)

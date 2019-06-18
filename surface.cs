@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL;
+using OpenTK;
 
 namespace Template
 {
@@ -197,7 +198,7 @@ namespace Template
 					}
 			}
 		}
-	}
+    }
 	public class Sprite
 	{
 		Surface bitmap;

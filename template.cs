@@ -41,6 +41,7 @@ namespace Template
 			Sprite.target = app.screen;
 			screenID = app.screen.GenTexture();
 			app.Init();
+            input.Initialize(this);
 		}
 		protected override void OnUnload( EventArgs e )
 		{
@@ -61,6 +62,32 @@ namespace Template
 			// called once per frame; app logic
 			var keyboard = OpenTK.Input.Keyboard.GetState();
 			if( keyboard[OpenTK.Input.Key.Escape] ) terminated = true;
+
+            if (input.mouseDown(OpenTK.Input.MouseButton.Left))
+            {
+                app.KeyMove(Matrix4.CreateRotationY(-0.1f));
+            }
+            if (input.mouseDown(OpenTK.Input.MouseButton.Right))
+            {
+                app.KeyMove(Matrix4.CreateRotationY(0.1f));
+            }
+            if (input.keyDown(OpenTK.Input.Key.Left))
+            {
+                app.KeyMove(Matrix4.CreateTranslation(0.5f, 0, 0));
+            }
+            if (input.keyDown(OpenTK.Input.Key.Right))
+            {
+                app.KeyMove(Matrix4.CreateTranslation(-0.5f, 0, 0));
+            }
+            if (input.keyDown(OpenTK.Input.Key.Up))
+            {
+                app.KeyMove(Matrix4.CreateTranslation(0, 0, 0.5f));
+            }
+            if (input.keyDown(OpenTK.Input.Key.Down))
+            {
+                app.KeyMove(Matrix4.CreateTranslation(0, 0, -0.5f));
+            }
+            input.Update();
 		}
 		protected override void OnRenderFrame( FrameEventArgs e )
 		{
