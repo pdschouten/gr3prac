@@ -41,7 +41,7 @@ namespace Template
             land = new Texture("../../assets/land.jpg");
             stars = new Texture("../../assets/stars.jpg");
             meshes = new scenegraph(floor, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
-            meshes.addNode(earth, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), land, shader);
+            meshes.addNode(mesh, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
             
         }
 
@@ -54,8 +54,10 @@ namespace Template
 		// tick for OpenGL rendering code
 		public void RenderGL()
 		{
-			// measure frame duration
-			float frameDuration = timer.ElapsedMilliseconds;
+            screen.Print("Camera Move: UP, DOWN, LEFT, RIGHT", 2, 2, 0xffff00);
+            screen.Print("Rotate: MOUSE LEFT, MOUSE RIGHT", 2, 32, 0xffff00);
+            // measure frame duration
+            float frameDuration = timer.ElapsedMilliseconds;
 			timer.Reset();
 			timer.Start();
 
