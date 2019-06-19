@@ -9,12 +9,12 @@ namespace Template
 	{
 		// member variables
 		public Surface screen;                  // background surface for printing etc.
-		Mesh mesh, floor, eye;                  // a mesh to draw using OpenGL
+		Mesh mesh, floor, eye, moon, earth;                  // a mesh to draw using OpenGL
 		const float PI = 3.1415926535f;         // PI
 		float a = 0;                            // teapot rotation angle
 		Stopwatch timer;                        // timer for measuring frame duration
 		Shader shader;                          // shader to use for rendering
-		Texture wood, eyeR;                     // texture to use for rendering
+		Texture wood, eyeR, crater, land, stars;                     // texture to use for rendering
         scenegraph meshes;
         Matrix4 Tmove = Matrix4.CreateTranslation(0,0,0);
 
@@ -26,8 +26,10 @@ namespace Template
 			mesh = new Mesh( "../../assets/teapot.obj" );
 			floor = new Mesh( "../../assets/floor.obj" );
             eye = new Mesh( "../../assets/eyeball.obj");
-			// initialize stopwatch
-			timer = new Stopwatch();
+            moon = new Mesh("../../assets/moon.obj");
+            earth = new Mesh("../../assets/earth.obj");
+            // initialize stopwatch
+            timer = new Stopwatch();
 			timer.Reset();
 			timer.Start();
 			// create shaders
@@ -35,9 +37,11 @@ namespace Template
 			// load a texture
 			wood = new Texture( "../../assets/wood.jpg" );
             eyeR = new Texture("../../assets/ref1.jpg");
-            meshes = new scenegraph(floor, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
-            meshes.addNode(mesh, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
-            //meshes.addNode(mesh, Matrix4.CreateScale(1.3f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
+            crater = new Texture("../../assets/crater.jpg");
+            land = new Texture("../../assets/land.jpg");
+            stars = new Texture("../../assets/stars.jpg");
+            meshes = new scenegraph(floor, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
+            meshes.addNode(earth, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), land, shader);
             
         }
 
@@ -57,8 +61,8 @@ namespace Template
 
 			// prepare matrix for vertex shader
 			float angle90degrees = PI / 2;
-			Matrix4 Tpot = Matrix4.CreateScale( 1.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 0, 0 ), a );
-            Matrix4 Tfloor = Matrix4.CreateScale( 1.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
+			Matrix4 Tpot = Matrix4.CreateScale( 0.2f ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 0, 0 ), a*3 );
+            Matrix4 Tfloor = Matrix4.CreateScale( 6.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
 			Matrix4 Tcamera = Matrix4.CreateTranslation( new Vector3( 0, -20.5f, 0 ) ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 0, 0 ), angle90degrees );
 			Matrix4 Tview = Matrix4.CreatePerspectiveFieldOfView( 1.2f, 1.3f, .1f, 1000 );
 
@@ -68,7 +72,7 @@ namespace Template
 
 
             // update rotation
-            a += 0.0002f * frameDuration;
+            a += 0.0001f * frameDuration;
 			if( a > 2 * PI ) a -= 2 * PI;
 
             //render via scenegraph
