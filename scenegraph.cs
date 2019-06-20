@@ -57,7 +57,7 @@ namespace Template
             {
                 foreach(scenegraph x in childnodes)
                 {
-                    x.Render(localT*camera, toWorld);
+                    x.Render(localT*camera, localT*toWorld);
                 }
             }
         }
