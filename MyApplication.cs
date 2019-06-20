@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using System;
 
@@ -42,11 +43,16 @@ namespace Template
             land = new Texture("../../assets/land.jpg");
             stars = new Texture("../../assets/stars.jpg");
             jetp = new Texture("../../assets/jetp.png");
+            //add light
+            int lightID = GL.GetUniformLocation(shader.programID, "lightPos");
+            GL.UseProgram(shader.programID);
+            GL.Uniform3(lightID, 0f, 10f, -1.0f);
 
+            //create scenegraph
             meshes = new scenegraph(floor, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
-            meshes.addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
-            meshes.getChildren()[0].addNode(jet, Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(new Vector3(5, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), jetp, shader);
-            meshes.getChildren()[0].getChildren()[0].addNode(jet, Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(8, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), jetp, shader);
+            meshes.addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
+            meshes.getChildren()[0].addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(new Vector3(5, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
+            meshes.getChildren()[0].getChildren()[0].addNode(mesh, Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(8, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), eyeR, shader);
         }
 
 		// tick for background surface
@@ -67,11 +73,11 @@ namespace Template
 
 			// prepare matrix for vertex shader
 			float angle90degrees = PI / 2;
-			Matrix4 Tpot = Matrix4.CreateScale( 0.2f ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 1, 0 ), a*3 );
-            Matrix4 Tplane1 = Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(10, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), -10*a);
+			Matrix4 Tpot = Matrix4.CreateScale( 0.2f ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 1, 0 ),0);
+            Matrix4 Tplane1 = Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(10, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
             Matrix4 Tfloor = Matrix4.CreateScale( 6.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), 0 );
-            Matrix4 Tplane2 = Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(15, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 1), -10*a);
-
+            Matrix4 Tplane2 = Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(15, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+            Matrix4 toWorld = Tfloor;
             Matrix4 Tcamera = Matrix4.CreateTranslation( new Vector3( 0, -20.5f, 0 ) ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 0, 0 ), angle90degrees );
 			Matrix4 Tview = Matrix4.CreatePerspectiveFieldOfView( 1.2f, 1.3f, .1f, 1000 );
 
@@ -86,7 +92,7 @@ namespace Template
 			if( a > 2 * PI ) a -= 2 * PI;
 
             //render via scenegraph
-            meshes.Render(Tmove * Tcamera * Tview);
+            meshes.Render(Tmove * Tcamera * Tview, toWorld);
 
             // render scene
             //mesh.Render(shader, Tpot * Tcamera * Tview, wood);
