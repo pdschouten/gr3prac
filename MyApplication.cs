@@ -46,7 +46,7 @@ namespace Template
             //add light
             int lightID = GL.GetUniformLocation(shader.programID, "lightPos");
             GL.UseProgram(shader.programID);
-            GL.Uniform3(lightID, 0.0f, 10.0f, 0.0f);
+            GL.Uniform3(lightID, 10f, 10.0f, 0.0f);
 
             //create scenegraph
             meshes = new scenegraph(floor, Matrix4.CreateScale(1.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
