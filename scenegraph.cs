@@ -16,11 +16,11 @@ namespace Template
         public Matrix4 localT;
         public Texture localTex;
         public Shader localS;
-        public LinkedList<scenegraph> childnodes;
+        public List<scenegraph> childnodes;
 
         public scenegraph(Mesh ab, Matrix4 bc, Texture cd, Shader de)
         {
-            childnodes = new LinkedList<scenegraph>();
+            childnodes = new List<scenegraph>();
             localT = bc;
             localTex = cd;
             localS = de;
@@ -29,12 +29,12 @@ namespace Template
 
         public void addNode(Mesh a, Matrix4 b, Texture c, Shader d)
         {
-            childnodes.AddFirst(new scenegraph(a,b,c, d));
+            childnodes.Add(new scenegraph(a, b, c, d));
         }
 
-        public scenegraph getChildren()
+        public List<scenegraph> getChildren()
         {
-            return childnodes.First();
+            return childnodes;
         }
 
         public Matrix4 localTrans
