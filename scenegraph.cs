@@ -49,15 +49,14 @@ namespace Template
             set { localTex = value; }
         }
 
-        public void Render(Matrix4 camera)
+        public void Render(Matrix4 camera, Matrix4 toWorld)
         {
-
-            m.Render(localS, localT * camera, localTex);
+            m.Render(localS, localT * camera,localT*toWorld,localTex);
             if (childnodes.Count != 0)
             {
                 foreach(scenegraph x in childnodes)
                 {
-                    x.Render(localT*camera);
+                    x.Render(localT*camera, localT* toWorld);
                 }
             }
         }
