@@ -22,7 +22,7 @@ void main()
 	vec3 K = normalize( L );
 	vec3 viewDir = normalize(cPost.xyz - worldPos.xyz);
 	vec3 reflectDir = normalize(reflect(-L, normal.xyz));
-	vec3 lightColor = vec3( 20, 20, 20 );
+	vec3 lightColor = vec3( 2, 2, 2 );
 	float ambientStrength = 0.01;
     vec3 ambient = ambientStrength * lightColor;
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 128);
