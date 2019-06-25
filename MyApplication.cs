@@ -56,7 +56,7 @@ namespace Template
 
             //create scenegraph
             meshes = new scenegraph(floor, Matrix4.CreateScale(6.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
-            meshes.addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), eyeR, shader);
+            meshes.addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
             meshes.getChildren()[0].addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(new Vector3(5, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
             meshes.getChildren()[0].getChildren()[0].addNode(mesh, Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(8, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
         }
@@ -79,8 +79,8 @@ namespace Template
 
 			// prepare matrix for vertex shader
 			float angle90degrees = PI / 2;
-			Matrix4 Tpot = Matrix4.CreateScale( 0.2f ) * Matrix4.CreateFromAxisAngle( new Vector3( 1, 1, 0 ), a);
-            Matrix4 Tplane1 = Matrix4.CreateScale(0.25f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), -10*a) *Matrix4.CreateTranslation(new Vector3(10, 0, 0));
+			Matrix4 Tpot = Matrix4.CreateScale( 0.2f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a);
+            Matrix4 Tplane1 = Matrix4.CreateScale(0.25f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), -15*a) *Matrix4.CreateTranslation(new Vector3(10, 0, 8));
             Matrix4 Tfloor = Matrix4.CreateScale( 6.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), 0 );
             Matrix4 Tplane2 = Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(15, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), -30*a);
             Matrix4 toWorld = Tpot;

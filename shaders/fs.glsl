@@ -16,17 +16,18 @@ void main()
 {
 	vec3 L = lightPos - worldPos.xyz;
 	float dist = L.length();
-	float specularStrength = 0.5;
+	float specularStrength = 1;
 	vec3 K = normalize( L );
 	vec3 viewDir = normalize(cPos.xyz - worldPos.xyz);
-	vec3 reflectDir = reflect(-L, normal.xyz);
-	vec3 lightColor = vec3( 5, 5, 5 );
+	vec3 reflectDir = normalize(reflect(-L, normal.xyz));
+	vec3 lightColor = vec3( 10, 10, 10 );
 	float ambientStrength = 0.01;
     vec3 ambient = ambientStrength * lightColor;
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	vec3 materialColor = texture( pixels, uv ).xyz;
 	vec3 specular = specularStrength * spec * materialColor; 
-	float attenuation = 1.0f / (dist *dist);
-	outputColor = vec4( ((materialColor * max( 0.0f, dot( K, normal.xyz ) ) *
-	attenuation) + specular + ambient)*lightColor, 1 );
+	float attenuation = 1.0f / (dist * dist);
+	float ndotl = max(0.0f, dot(K, normal.xyz));
+	vec3 diffuse = materialColor * ndotl * lightColor * attenuation;
+	outputColor = vec4(ambient, 1.0f) + vec4(diffuse + specular, 1.0f);
 }
