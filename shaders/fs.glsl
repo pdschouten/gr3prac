@@ -15,7 +15,7 @@ out vec4 outputColor;
 // fragment shader
 void main()
 {
-	vec4 cPost = toMove * cPos;
+	vec4 cPost = inverse(toMove) * cPos;
 	vec3 L = lightPos - worldPos.xyz;
 	float dist = L.length();
 	float specularStrength = 1;
