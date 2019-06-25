@@ -51,12 +51,12 @@ namespace Template
 
         public void Render(Matrix4 camera, Matrix4 toWorld)
         {
-            m.Render(localS, localT * camera,localT*toWorld,localTex);
+            m.Render(localS, localT * camera,toWorld*localT,localTex);
             if (childnodes.Count != 0)
             {
                 foreach(scenegraph x in childnodes)
                 {
-                    x.Render(localT*camera, localT* toWorld);
+                    x.Render(localT*camera, toWorld*localT);
                 }
             }
         }

@@ -32,6 +32,7 @@ namespace Template
 			uniform_mview = GL.GetUniformLocation( programID, "transform" );
             uniform_2wrld = GL.GetUniformLocation(programID, "toWorld");
 
+
         }
 
         // loading shaders
