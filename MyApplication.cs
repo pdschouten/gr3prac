@@ -18,7 +18,7 @@ namespace Template
 		Texture wood, eyeR, crater, land, stars, jetp;                     // texture to use for rendering
         scenegraph meshes;
         Matrix4 Tmove = Matrix4.CreateTranslation(0,0,0);
-
+        Matrix4 Tc;
 		// initialize
 		public void Init()
 		{
@@ -48,7 +48,7 @@ namespace Template
             GL.UseProgram(shader.programID);
             GL.Uniform3(lightID, 0f, 3f, 0.0f);
             //add camera position
-            Matrix4 Tc = Matrix4.CreateTranslation(new Vector3(0, -25.5f, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), PI/2);
+            Tc = Matrix4.CreateTranslation(new Vector3(0, -25.5f, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), PI/2);
             Vector4 c = Tc*(new Vector4(0f, 0f, 0f, 1f));
             int cameraID = GL.GetUniformLocation(shader.programID, "cPos");
             GL.UseProgram(shader.programID);
@@ -57,7 +57,7 @@ namespace Template
             //create scenegraph
             meshes = new scenegraph(floor, Matrix4.CreateScale(6.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), stars, shader);
             meshes.addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
-            meshes.getChildren()[0].addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(new Vector3(5, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
+            meshes.getChildren()[0].addNode(mesh, Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(new Vector3(5, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), eyeR, shader);
             meshes.getChildren()[0].getChildren()[0].addNode(mesh, Matrix4.CreateScale(0.25f) * Matrix4.CreateTranslation(new Vector3(8, 0, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood, shader);
         }
 
@@ -98,7 +98,7 @@ namespace Template
 			if( a > 2 * PI ) a -= 2 * PI;
 
             //render via scenegraph
-            meshes.Render(Tmove * Tcamera * Tview, toWorld);
+            meshes.Render(Tmove * Tcamera * Tview, toWorld, Tmove);
 
             // render scene
             //mesh.Render(shader, Tpot * Tcamera * Tview, wood);

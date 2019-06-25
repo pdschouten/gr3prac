@@ -13,6 +13,7 @@ namespace Template
 		public int attribute_vuvs;
 		public int uniform_mview;
         public int uniform_2wrld;
+        public int uniform_move;
 
 
         // constructor
@@ -31,6 +32,7 @@ namespace Template
 			attribute_vuvs = GL.GetAttribLocation( programID, "vUV" );
 			uniform_mview = GL.GetUniformLocation( programID, "transform" );
             uniform_2wrld = GL.GetUniformLocation(programID, "toWorld");
+            uniform_move = GL.GetUniformLocation(programID, "toMove");
 
 
         }
